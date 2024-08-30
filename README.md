@@ -12,5 +12,5 @@ Student Info
 
 * Name: Đặng Trần Trung Thành
 * ID: 22BI13406
-* Group ID: 22
+* Group ID: 14
 * Project Name: 
