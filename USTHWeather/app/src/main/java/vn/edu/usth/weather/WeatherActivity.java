@@ -21,4 +21,34 @@ public class WeatherActivity extends AppCompatActivity {
             return insets;
         });
     }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.i(TAG, "=== APP STARTED ===");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i(TAG, "=== APP RESUMED ===");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i(TAG, "=== APP PAUSED ===");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i(TAG, "=== APP STOPPED ===");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG, "=== APP DESTROYED ===");
+    }
+
 }
