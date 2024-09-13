@@ -1,6 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+    <component name="deploymentTargetSelector">
+        <selectionStates>
+            <SelectionState runConfigName="app">
+                <option name="selectionMode" value="DROPDOWN" />
+                <DropdownSelection timestamp="2024-09-06T03:30:28.846482800Z">
+                    <Target type="DEFAULT_BOOT">
+                        <handle>
+                            <DeviceId pluginId="PhysicalDevice" identifier="serial=R58MB5ATF2B" />
+                        </handle>
+                    </Target>
+                </DropdownSelection>
+                <DialogSelection />
+            </SelectionState>
+        </selectionStates>
+    </component>
+</project>
