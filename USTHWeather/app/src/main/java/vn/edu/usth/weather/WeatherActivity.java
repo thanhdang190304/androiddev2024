@@ -1,10 +1,16 @@
 package vn.edu.usth.weather;
 
 import android.content.pm.PackageManager;
+import android.content.Intent;
 import android.os.Bundle;
 
+import android.preference.PreferenceActivity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
@@ -33,6 +39,9 @@ public class WeatherActivity extends AppCompatActivity {
             return insets;
         });
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         HomeFragmentPagerAdapter adapter = new HomeFragmentPagerAdapter(
                 getSupportFragmentManager());
         ViewPager pager = (ViewPager) findViewById(R.id.viewPager);
@@ -42,7 +51,7 @@ public class WeatherActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab);
         tabLayout.setupWithViewPager(pager);
 
-        extractAndPlayMusic();
+        //extractAndPlayMusic(); not working properly anymore
 
         /*
         //Practical 3: add code
@@ -60,6 +69,7 @@ public class WeatherActivity extends AppCompatActivity {
         Log.i("onCreate", "onCreate");
     }
 
+    /*
     private void extractAndPlayMusic() {
         try {
             // Copy to ext storage
@@ -86,6 +96,25 @@ public class WeatherActivity extends AppCompatActivity {
         } catch(Exception e){
             e.printStackTrace();
         }
+    } */
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.weather_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.action_refresh) {
+            Toast.makeText(this, "Refresh", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (itemId == R.id.action_settings) {
+            startActivity(new Intent(this, PrefActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     // Practical 2
