@@ -1,8 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="blue">#5403A9F4</color>
-    <color name="green">#B0E57C</color>
-    <color name="gray">#F8F8F8</color>
+    <!-- Primary Colors -->
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+
+    <!-- Weather Colors -->
+    <color name="light_green">#A8E6CF</color> <!-- Background for weather info -->
+    <color name="light_blue">#ADD8E6</color>  <!-- Background for days -->
+
+    <!-- Text Colors -->
+    <color name="textColorBlack">#000000</color>
+    <color name="textColorWhite">#FFFFFF</color>
+    <color name="textColorGray">#757575</color>
+
+    <!-- Weather Condition Colors -->
+    <color name="rainy">#2196F3</color>
+    <color name="cloudy">#B0BEC5</color>
+    <color name="sunny">#FFEB3B</color>
+    <color name="thunderstorms">#F44336</color>
 </resources>

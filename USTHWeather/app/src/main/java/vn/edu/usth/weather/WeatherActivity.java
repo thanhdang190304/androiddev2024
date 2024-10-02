@@ -1,147 +1,121 @@
 package vn.edu.usth.weather;
 
-import android.content.pm.PackageManager;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.ViewPager;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
-
-import android.preference.PreferenceActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import android.util.Log;
-import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
-import android.media.MediaPlayer;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 public class WeatherActivity extends AppCompatActivity {
+
+    private static final String TAG = "WeatherActivity";
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_weather);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        setContentView(R.layout.activity_weather_activity);
 
+        // Set up the Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar); // Set the Toolbar as the action bar
 
-        HomeFragmentPagerAdapter adapter = new HomeFragmentPagerAdapter(
-                getSupportFragmentManager());
-        ViewPager pager = (ViewPager) findViewById(R.id.viewPager);
-        pager.setOffscreenPageLimit(3);
-        pager.setAdapter(adapter);
+        // Setup ViewPager and TabLayout
+        ViewPager viewPager = findViewById(R.id.viewPager);
+        WeatherAndForecastPagerAdapter adapter = new WeatherAndForecastPagerAdapter(getSupportFragmentManager(), WeatherAndForecastPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        viewPager.setAdapter(adapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab);
-        tabLayout.setupWithViewPager(pager);
+        TabLayout tabLayout = findViewById(R.id.tabLayout);
+        tabLayout.setupWithViewPager(viewPager);
 
-        //extractAndPlayMusic(); not working properly anymore
+        // Optionally, set tab titles
+        if (tabLayout.getTabCount() >= 3) {
+            tabLayout.getTabAt(0).setText("Viet Nam");
+            tabLayout.getTabAt(1).setText("France");
+            tabLayout.getTabAt(2).setText("India");
+        }
 
-        /*
-        //Practical 3: add code
-        // Create a new Fragment to be placed in the activity l
-        ForecastFragment firstFragment = new ForecastFragment();
-        // Add the fragment to the 'container' FrameLayout
-        getSupportFragmentManager().beginTransaction().add(
-                R.id.fragment_container, firstFragment).commit();
+        // Initialize MediaPlayer with the MP3 file from the raw folder
+        mediaPlayer = MediaPlayer.create(this, R.raw.musicc); // Make sure your MP3 file is named correctly (musicc.mp3)
 
-        // Practical 6: add WeatherFragment
-        WeatherFragment secondFragment = new WeatherFragment();
-        getSupportFragmentManager().beginTransaction().add(
-                R.id.fragment_weather, secondFragment).commit();
-        */
-        Log.i("onCreate", "onCreate");
+        // Start playing the audio when the app starts
+        if (mediaPlayer != null) {
+            mediaPlayer.setLooping(true); // Loop the audio if needed
+            mediaPlayer.start(); // Start playing the MP3
+        }
     }
 
-    /*
-    private void extractAndPlayMusic() {
-        try {
-            // Copy to ext storage
-            InputStream inputStream = getResources().openRawResource(R.raw.music);
-            File musicFile = new File(getExternalFilesDir(null), "music.mp3");
-            OutputStream outputStream = new FileOutputStream(musicFile);
-
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = inputStream.read(buffer)) > 0){
-                outputStream.write(buffer, 0, length);
-            }
-
-            outputStream.flush();
-            outputStream.close();
-            inputStream.close();
-
-            // Play
-            MediaPlayer mediaPlayer = new MediaPlayer();
-            mediaPlayer.setDataSource(musicFile.getPath());
-            mediaPlayer.prepare();
-            mediaPlayer.start();
-
-        } catch(Exception e){
-            e.printStackTrace();
-        }
-    } */
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.i(TAG, "=== APP STARTED ===");
+    }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i(TAG, "=== APP RESUMED ===");
+
+        // Resume the audio when the activity resumes
+        if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
+            mediaPlayer.start();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i(TAG, "=== APP PAUSED ===");
+
+        // Pause the audio when the activity is paused
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            mediaPlayer.pause();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i(TAG, "=== APP STOPPED ===");
+
+        // Stop the audio when the activity is stopped
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            mediaPlayer.stop();
+            try {
+                mediaPlayer.prepare(); // Reprepare it to be ready for the next play
+            } catch (Exception e) {
+                Log.e(TAG, "Error preparing MediaPlayer", e);
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG, "=== APP DESTROYED ===");
+
+        // Release the MediaPlayer resources when the activity is destroyed
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+    }
+
+    // Create the options menu
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.weather_menu,menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu); // Inflate the menu
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int itemId = item.getItemId();
-        if (itemId == R.id.action_refresh) {
-            Toast.makeText(this, "Refresh", Toast.LENGTH_SHORT).show();
-            return true;
-        } else if (itemId == R.id.action_settings) {
-            startActivity(new Intent(this, PrefActivity.class));
-            return true;
+
         }
-        return super.onOptionsItemSelected(item);
-    }
 
-    // Practical 2
-    @Override
-    public void onStart() {
-        super.onStart();
-        Log.i("onStart", "onStart");
-    }
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.i("onResume", "onResume");
-    }
-    @Override
-    public void onPause() {
-        super.onPause();
-        Log.i("onPause", "onPause");
-    }
-    @Override
-    public void onStop() {
-        super.onStop();
-        Log.i("onStop", "onStop");
-    }
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.i("onDestroy", "onDestroy");
-    }
 
-}

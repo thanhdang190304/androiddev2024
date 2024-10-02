@@ -1,26 +1,30 @@
 <resources>
-    <string name="app_name">USTH Weather</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name='weather_condition_1'>Cloudy</string>
-    <string name='weather_condition_2'>Sunny</string>
-    <string name='weather_condition_3'>Rainy</string>
-    <string name='weather_condition_4'>Storm</string>
-    <string name='day_1'>Monday</string>
-    <string name='day_2'>Tuesday</string>
-    <string name='day_3'>Wednesday</string>
-    <string name='day_4'>Thursday</string>
-    <string name='day_5'>Friday</string>
-    <string name='day_6'>Saturday</string>
-    <string name='day_7'>Sunday</string>
-    <string name='temperature_1'>25°-30°</string>
-    <string name='temperature_2'>22°-29°</string>
-    <string name='temperature_3'>23°-29°</string>
-    <string name='temperature_4'>26°-30°</string>
-    <string name='temperature_5'>20°-25°</string>
-    <string name='temperature_6'>22°-28°</string>
-    <string name='temperature_7'>21°-27°</string>
-    <string name='temperature_8'>25°</string>
+    <!-- Days of the week -->
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
 
+    <!-- Weather descriptions -->
+    <string name="cloudy">Cloudy</string>
+    <string name="showers">Showers</string>
+    <string name="light_showers">Light Showers</string>
+    <string name="heavy_rain">Heavy Rain</string>
+    <string name="thunderstorms">Thunderstorms</string>
+    <string name="sunny">Sunny</string>
 
+    <!-- Temperature strings -->
+    <string name="temperature">12°C, cloudy</string>
+    <string name="showers_temp_range">Showers\n24C - 31C</string>
+    <string name="cloudy_temp_range">Cloudy\n24C - 31C</string>
+    <string name="sunny_temp_range">Sunny\n24C - 31C</string>
+    <string name="heavy_rain_temp_range">Heavy Rain\n24C - 31C</string>
+    <string name="thunderstorms_temp_range">Thunderstorms\n24C - 31C</string>
+    <string name="light_showers_temp_range">Light Showers\n24C - 31C</string>
+
+    <!-- City name -->
+    <string name="city_name">Paris</string>
 </resources>
