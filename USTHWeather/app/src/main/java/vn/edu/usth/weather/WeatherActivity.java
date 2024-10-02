@@ -1,22 +1,22 @@
 package vn.edu.usth.weather;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.viewpager.widget.ViewPager;
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 
 public class WeatherActivity extends AppCompatActivity {
 
     private static final String TAG = "WeatherActivity";
-    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,78 +34,6 @@ public class WeatherActivity extends AppCompatActivity {
 
         TabLayout tabLayout = findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
-
-        // Optionally, set tab titles
-        if (tabLayout.getTabCount() >= 3) {
-            tabLayout.getTabAt(0).setText("Viet Nam");
-            tabLayout.getTabAt(1).setText("France");
-            tabLayout.getTabAt(2).setText("India");
-        }
-
-        // Initialize MediaPlayer with the MP3 file from the raw folder
-        mediaPlayer = MediaPlayer.create(this, R.raw.musicc); // Make sure your MP3 file is named correctly (musicc.mp3)
-
-        // Start playing the audio when the app starts
-        if (mediaPlayer != null) {
-            mediaPlayer.setLooping(true); // Loop the audio if needed
-            mediaPlayer.start(); // Start playing the MP3
-        }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.i(TAG, "=== APP STARTED ===");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.i(TAG, "=== APP RESUMED ===");
-
-        // Resume the audio when the activity resumes
-        if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
-            mediaPlayer.start();
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.i(TAG, "=== APP PAUSED ===");
-
-        // Pause the audio when the activity is paused
-        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-            mediaPlayer.pause();
-        }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.i(TAG, "=== APP STOPPED ===");
-
-        // Stop the audio when the activity is stopped
-        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-            mediaPlayer.stop();
-            try {
-                mediaPlayer.prepare(); // Reprepare it to be ready for the next play
-            } catch (Exception e) {
-                Log.e(TAG, "Error preparing MediaPlayer", e);
-            }
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.i(TAG, "=== APP DESTROYED ===");
-
-        // Release the MediaPlayer resources when the activity is destroyed
-        if (mediaPlayer != null) {
-            mediaPlayer.release();
-            mediaPlayer = null;
-        }
     }
 
     // Create the options menu
@@ -115,6 +43,45 @@ public class WeatherActivity extends AppCompatActivity {
         return true;
     }
 
+    // Handle menu item selections
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
 
+                // Simulate network request
+
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    // Simulate a network request using Thread and Handler
+    private void simulateNetworkRequest() {
+        // Show a toast to indicate that refresh started
+        Toast.makeText(this, "Refreshing...", Toast.LENGTH_SHORT).show();
+
+        // Start a new thread to simulate a network request
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    // Simulate network delay (2 seconds)
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                // After delay, update the UI on the main thread using a Handler
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Show a toast to indicate that refresh is complete
+                        Toast.makeText(WeatherActivity.this, "Refresh Complete!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }).start();
+    }
 }
 
